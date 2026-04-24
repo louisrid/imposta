@@ -10,6 +10,9 @@ const client = new Client({
 });
 
 const games = new Map();
+// Tracks the last impostor's user ID per channel, so back-to-back games in the
+// same channel never pick the same person twice in a row (anti-repeat guard).
+const lastImpostaByChannel = new Map();
 
 // ============================================================
 // FOOTBALL — 50 players, flat list (no subcategories shown to players)
@@ -425,7 +428,20 @@ async function updateLobby(interaction, game) {
 
 async function startGame(interaction, game) {
   game.players = shuffle([...game.players]);
-  game.impostaId = selectImposta(game.players);
+
+  // Anti-repeat: if the previous game in this channel had an impostor and
+  // that person is still a player, reroll once if we happen to pick them again.
+  const channelId = interaction.channelId;
+  const lastImposta = lastImpostaByChannel.get(channelId);
+  let picked = selectImposta(game.players);
+  if (lastImposta && game.players.includes(lastImposta) && picked === lastImposta && game.players.length > 1) {
+    // Pick again, excluding the previous impostor
+    const candidates = game.players.filter(id => id !== lastImposta);
+    picked = candidates[secureRandInt(candidates.length)];
+    console.log(`[anti-repeat] rerolled away from previous impostor ${lastImposta}`);
+  }
+  game.impostaId = picked;
+  lastImpostaByChannel.set(channelId, picked);
 
   const categoryData = CATEGORIES[game.category];
   const subcategoryNames = Object.keys(categoryData.subcategories);
@@ -444,6 +460,9 @@ async function startGame(interaction, game) {
   console.log('\n=== GAME STARTED ===');
   console.log(`Category: ${categoryData.name}`);
   if (!isFlat) console.log(`Subcategory: ${chosenSubcategory}`);
+  console.log(`Players (join/shuffled order): ${game.players.join(', ')}`);
+  console.log(`Impostor picked: ${game.impostaId}`);
+  console.log(`Impostor index in array: ${game.players.indexOf(game.impostaId)}`);
   console.log('====================\n');
 
   for (const playerId of game.players) {
