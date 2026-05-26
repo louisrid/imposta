@@ -1,16 +1,16 @@
 {
-  "name": "imposta-discord-bot",
+  "name": "impostor-bot",
   "version": "1.0.0",
-  "description": "IMPOSTA! Discord party game bot",
-  "main": "bot.js",
   "type": "module",
+  "main": "index.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node index.js"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Discord Impostor game bot",
   "dependencies": {
-    "discord.js": "^14.16.3"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "discord.js": "^14.24.0"
   }
 }
