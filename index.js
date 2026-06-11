@@ -21,19 +21,23 @@ const footballGoalkeepers = [
 const footballDefenders = [
   "Virgil van Dijk","Trent Alexander-Arnold","Andrew Robertson","Ruben Dias","Joao Cancelo","Kyle Walker","John Stones","Antonio Rudiger","Eder Militao","David Alaba",
   "Raphael Varane","Theo Hernandez","Lucas Hernandez","Achraf Hakimi","Alphonso Davies","Jules Kounde","Ronald Araujo","Matthijs de Ligt","Dayot Upamecano","Marquinhos Silva",
-  "Pau Torres","Ben White","Reece James","Lisandro Martinez","Aymeric Laporte"
+  "Pau Torres","Ben White","Reece James","Lisandro Martinez","Aymeric Laporte",
+  "William Saliba","Gabriel Magalhaes","Josko Gvardiol","Cristian Romero","Micky van de Ven"
 ];
 
 const footballMidfielders = [
   "Kevin De Bruyne","Luka Modric","Toni Kroos","Jude Bellingham","Bernardo Silva","Bruno Fernandes","Martin Odegaard","Joshua Kimmich","Federico Valverde","Eduardo Camavinga",
   "Aurelien Tchouameni","Pedri Gonzalez","Pablo Gavi","Ilkay Gundogan","Declan Rice","Nicolo Barella","Rodri Hernandez","Frenkie de Jong","Phil Foden","Kai Havertz",
-  "Enzo Fernandez","Cole Palmer","Kobbie Mainoo","Alexis Mac Allister","Florian Wirtz"
+  "Enzo Fernandez","Cole Palmer","Kobbie Mainoo","Alexis Mac Allister","Florian Wirtz",
+  "Jamal Musiala","Vitinha","Bruno Guimaraes","Moises Caicedo","Dani Olmo","Joao Neves"
 ];
 
 const footballForwards = [
   "Lionel Messi","Cristiano Ronaldo","Erling Haaland","Kylian Mbappe","Vinicius Junior","Mohamed Salah","Harry Kane","Robert Lewandowski","Lautaro Martinez","Jude Bellingham",
   "Julian Alvarez","Paulo Dybala","Antoine Griezmann","Marcus Rashford","Bukayo Saka","Jack Grealish","Riyad Mahrez","Son Heung-Min","Joao Felix","Victor Osimhen",
-  "Khvicha Kvaratskhelia","Rafael Leao","Ousmane Dembele","Randal Kolo Muani","Darwin Nunez"
+  "Khvicha Kvaratskhelia","Rafael Leao","Ousmane Dembele","Randal Kolo Muani","Darwin Nunez",
+  "Lamine Yamal","Nico Williams","Alexander Isak","Viktor Gyokeres","Ollie Watkins",
+  "Gabriel Martinelli","Michael Olise","Omar Marmoush","Serhou Guirassy"
 ];
 
 // MOVIES CATEGORY
@@ -125,7 +129,7 @@ const CATEGORIES = {
 
 client.once('clientReady', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  console.log('\n✅ IMPOSTA! Game Bot Ready\n');
+  console.log('\n✅ IMPOSTA! Game Bot Ready — BUILD 2026-06-11\n');
   verifyImpostaDistribution();
   
   const command = new SlashCommandBuilder()
@@ -651,6 +655,8 @@ async function startGame(interaction, game) {
   console.log('\n=== GAME STARTED ===');
   console.log(`Category: ${categoryData.name}`);
   console.log(`Subcategory: ${chosenSubcategory}`);
+  console.log(`Word index: ${wordsArray.indexOf(secretWord)} of ${wordsArray.length}`);
+  console.log(`Impostor index in displayed player list: ${game.players.indexOf(game.impostaId)} of ${game.players.length}`);
   console.log('====================\n');
   
   // Send DMs
