@@ -1140,6 +1140,23 @@ function verifyImpostaDistribution() {
   console.log(`  Expected per slot: ~${expected} (${(100 / slots).toFixed(2)}%)`);
   console.log(`  Max deviation from uniform: ${maxDeviation.toFixed(2)}%`);
   console.log('=====================================================================\n');
+
+  // Second check: simulate full games (shuffle order, then pick imposter)
+  // and verify the imposter's SPEAKING POSITION is uniform — i.e. the
+  // imposter is no more likely to speak first than anywhere else.
+  const games = 10000;
+  const posCounts = Array(slots).fill(0);
+  for (let i = 0; i < games; i++) {
+    const order = shuffle(players);
+    const imposta = selectImposta(order);
+    posCounts[order.indexOf(imposta)]++;
+  }
+  console.log(`=== IMPOSTA! Speaking Position Verification (${games} simulated games) ===`);
+  posCounts.forEach((c, i) => {
+    console.log(`  Imposter speaks #${i + 1}: ${c} (${((c / games) * 100).toFixed(2)}%)`);
+  });
+  console.log(`  Expected: ${(100 / slots).toFixed(2)}% each`);
+  console.log('=====================================================================\n');
 }
 
 const token = process.env.DISCORD_BOT_TOKEN;
